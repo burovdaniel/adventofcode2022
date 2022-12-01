@@ -20,13 +20,15 @@
 /*==================================================================
  * Function definitions
  *==================================================================*/
+int bigger(int a, int b);
 
 int main(void)
 {
 	FILE *file;
 	char line[MAXLINE];
 	int calorie;
-	
+	int calorieSum,calorieLargest;
+
 	/*open file*/
 	if((file = fopen("puzzleInput.txt","r")) == NULL){
 		printf("ERROR file not found");
@@ -35,13 +37,27 @@ int main(void)
 	
 	/*read in lines in file*/
 	while(fgets(line,MAXLINE,file) != NULL){
-		calorie =	atoi(line); /*convert to int*/	
+		calorie =	atoi(line); 															 /*convert to int*/	
 
-		printf("%d\n",calorie);
+		/*adding the calories till break*/
+		if  (calorie !=0){calorieSum += calorie;}
+		else{
+			calorieLargest = bigger(calorieSum,calorieLargest);/*get the biggest value*/
+			calorieSum = 0;																		 /*reset*/
+		}
+		/*notes igores values before end of file*/
 	}
+
+	/*print the final value*/
+	printf("Largest calorie is %d",calorieLargest);
 
 	/*close file*/
 	fclose(file);
 	return 0;
 }
 
+int bigger(int a, int b)
+{
+	if  (a>b){return a;}
+	else{return b;}
+}
