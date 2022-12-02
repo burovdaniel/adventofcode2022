@@ -17,11 +17,18 @@
  *==================================================================*/
 #define MAXLINE 256
 
+#define LOST 	  0
+#define DRAW    3
+#define WIN     6
+
 /*==================================================================
  * Function definitions
  *==================================================================*/
 /*returns the points based on your choice*/
 int choice_points(char choice);
+
+/*detrimes outcome of the game and returns its points*/
+int outcome_points(char opponentChoice, char playerChoice);
 
 int main(void)
 {
@@ -36,8 +43,6 @@ int main(void)
 	
 	/*read in lines in file*/
 	while(fgets(line,MAXLINE,file) != NULL){
-		printf("%d ",choice_points(line[2]));
-		printf("%c\n",line[2]);
 	}
 
 
@@ -57,6 +62,32 @@ int main(void)
  *	lost = 0, draw  = 3, win      = 6
  */
 
+/*detrimes outcome of the game and returns its points*/
+int outcome_points(char opponentChoice, char playerChoice)
+{
+	int opponentNumChoice = choice_points(opponentChoice);
+	int playerNumChoice   = choice_points(playerChoice);
+	switch(opponentNumChoice - playerNumChoice)
+	{
+		case(0):
+			return DRAW;
+		
+		case(-1):
+			return WIN;
+
+		case(-2):
+			return LOST;
+
+		case(1):
+			return LOST;
+
+		case(2):
+			return WIN;
+	}
+
+	return 0;
+}
+
 /*returns the points based on your choice*/
 int choice_points(char choice)
 {
@@ -68,6 +99,14 @@ int choice_points(char choice)
 			return 2;
 		case 'Z':
 			return 3;
+
+		case 'A':
+			return 1;
+		case 'B':
+			return 2;
+		case 'C':
+			return 3;
 	}
 	return 0;
 }
+
